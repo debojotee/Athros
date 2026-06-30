@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount static files to allow hot reloading during frontend updates
+      - ./backend/app/static:/workspace/app/static
+      # Mount temp folder to persist uploads/outputs across restarts if needed
+      - ./backend/temp:/workspace/temp
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8000

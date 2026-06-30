@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athros - Precision 60fps Video Stitcher</title>
+    <meta name="description" content="Interleave two videos frame-by-frame (customizable interval at 60fps) with our high-performance in-memory processing engine. Clean, modern, and fast.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="stars-container"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <img src="logo.png" alt="Athros Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
+                </div>
+                <h1 class="logo-text">Athros</h1>
+            </div>
+            <p class="subtitle">Precision 60fps Frame-by-Frame Video Stitcher</p>
+        </header>
+
+        <!-- Main Dashboard Card -->
+        <main class="dashboard-card">
+            <!-- Phase 1: Upload & Configuration -->
+            <section id="upload-phase" class="phase-section active">
+                <div class="section-header">
+                    <h2>Select Videos to Interleave</h2>
+                    <p>Upload two videos. They will be synchronized to the length of the shorter clip and interleaved sequentially every 6 frames (0.1 seconds).</p>
+                </div>
+
+                <div class="upload-grid">
+                    <!-- Video A Card -->
+                    <div class="upload-card" id="dropzone-a">
+                        <input type="file" id="video-file-a" accept="video/*" class="file-input">
+                        <div class="card-interior">
+                            <div class="upload-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                </svg>
+                            </div>
+                            <h3>Primary Video (A)</h3>
+                            <p class="desc">Drag & drop your file or <span class="highlight">browse</span></p>
+                            <p class="format-info">Supports MP4, MOV, AVI, WEBM</p>
+                            
+                            <!-- File Meta -->
+                            <div class="file-meta" id="meta-a" style="display: none;">
+                                <div class="file-details">
+                                    <span class="file-name" id="name-a">video_a.mp4</span>
+                                    <span class="file-size" id="size-a">12.4 MB</span>
+                                </div>
+                                <button type="button" class="remove-btn" id="remove-a" title="Remove video">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video B Card -->
+                    <div class="upload-card" id="dropzone-b">
+                        <input type="file" id="video-file-b" accept="video/*" class="file-input">
+                        <div class="card-interior">
+                            <div class="upload-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                </svg>
+                            </div>
+                            <h3>Secondary Video (B)</h3>
+                            <p class="desc">Drag & drop your file or <span class="highlight">browse</span></p>
+                            <p class="format-info">Supports MP4, MOV, AVI, WEBM</p>
+                            
+                            <!-- File Meta -->
+                            <div class="file-meta" id="meta-b" style="display: none;">
+                                <div class="file-details">
+                                    <span class="file-name" id="name-b">video_b.mp4</span>
+                                    <span class="file-size" id="size-b">8.2 MB</span>
+                                </div>
+                                <button type="button" class="remove-btn" id="remove-b" title="Remove video">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-bar">
+                    <div class="config-item wide">
+                        <label for="interval-value">Interleave Interval</label>
+                        <div class="input-group">
+                            <input type="number" id="interval-value" min="1" step="1" value="6">
+                            <select id="interval-unit">
+                                <option value="frames" selected>Frames</option>
+                                <option value="seconds">Seconds</option>
+                            </select>
+                        </div>
+                        <span class="setting-caption" id="interval-caption">Stitch swap will occur every 6 frames (0.10s at 60 FPS)</span>
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button type="button" class="submit-btn" id="process-btn" disabled>
+                        <span>Interleave Videos</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <p class="err-msg" id="validation-msg" style="opacity: 0;">Please upload both videos to start processing.</p>
+                </div>
+            </section>
+
+            <!-- Phase 2: Processing & Status -->
+            <section id="processing-phase" class="phase-section">
+                <div class="processing-wrapper">
+                    <div class="spinner-area">
+                        <div class="radar-pulse"></div>
+                        <div class="processing-spinner"></div>
+                    </div>
+                    <h2>Stitching Streams...</h2>
+                    <p class="status-desc" id="status-text">Uploading videos to the processing server...</p>
+
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progress-bar"></div>
+                    </div>
+                    <div class="progress-percentage" id="progress-val">0%</div>
+
+                    <div class="logs-container">
+                        <div class="log-heading">Processing Logs</div>
+                        <div class="log-lines" id="log-console">
+                            <div class="log-line text-cyan">[System] Initializing connection to worker thread...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 3: Results -->
+            <section id="result-phase" class="phase-section">
+                <div class="result-wrapper">
+                    <div class="success-banner">
+                        <div class="success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="url(#success-grad)" />
+                                <path d="M8.5 12.5L11 15L15.5 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="success-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#10b981" />
+                                        <stop offset="1" stop-color="#059669" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h2>Videos Interleaved Successfully!</h2>
+                        <p>The videos were matched to the exact length and alternate frame-by-frame in perfect sequence.</p>
+                    </div>
+
+                    <div class="video-preview-card">
+                        <div class="video-container">
+                            <video id="output-video-player" controls preload="metadata" playsinline>
+                                Your browser does not support HTML5 video playback.
+                            </video>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <a href="#" id="download-btn" class="download-btn-link" download="interleaved_video.mp4">
+                            <span>Download Interleaved Video</span>
+                            <div class="btn-glow-green"></div>
+                        </a>
+                        <button type="button" class="reset-btn" id="start-new-btn">
+                            Stitch Another Pair
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Background Stars JavaScript -->
+    <script>
+        // Dynamically populate particle background
+        const container = document.querySelector('.stars-container');
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'bg-particle';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 8 + 's';
+            star.style.animationDuration = Math.random() * 8 + 8 + 's';
+            container.appendChild(star);
+        }
+    </script>
+    <script src="app.js" defer></script>
+</body>
+</html>
