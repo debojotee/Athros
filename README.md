@@ -18,7 +18,7 @@
 
 ## Overview
 
-**Athros** is a high-performance, professional-grade web application designed to interleave two video streams frame-by-frame. It splits both videos into equal frame segments (e.g. 6 frames at 60 FPS) and stitches them back together in a perfect alternating sequence: 
+**Athros** is a web application designed to interleave two video streams frame-by-frame. It splits both videos into equal frame segments (e.g. 6 frames at 60 FPS) and stitches them back together in a perfect alternating sequence: 
 
 $$\text{Video A (Frames } 0\text{-}5) \rightarrow \text{Video B (Frames } 0\text{-}5) \rightarrow \text{Video A (Frames } 6\text{-}11) \rightarrow \text{Video B (Frames } 6\text{-}11) \rightarrow \dots$$
 
