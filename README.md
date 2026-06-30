@@ -161,7 +161,7 @@ Access the application at [http://localhost:8000](http://localhost:8000). Code c
 
 ## 🧪 Testing
 
-We have built a dedicated programmatic validation script to test the video processor against frame loss, duration sync, and alternating patterns.
+I have built a dedicated programmatic validation script to test the video processor against frame loss, duration sync, and alternating patterns.
 
 ### Run Verification Test
 ```bash
@@ -174,18 +174,3 @@ python backend/test_processor.py
 4. Asserts that the output contains exactly **120 frames** (trimming Video B to 60 frames and interleaving $60 + 60 = 120$).
 5. Asserts the framerate is exactly **60.0 FPS**.
 6. Inspects the color of each frame sequentially, checking that frames 0-5 are Red, frames 6-11 are Blue, frames 12-17 are Red, etc.
-
----
-
-## 🚀 Deployment & Cloud Hosting
-
-The repository is standard and ready to deploy on **Render**, **Railway**, or **Fly.io** using the provided `Dockerfile`.
-
-### Render / Railway Deployment Steps
-1. Push this repository to your GitHub account.
-2. In Render or Railway, create a new **Web Service** connected to your repository.
-3. Configure the build:
-   * **Environment/Language**: `Docker`
-   * **Dockerfile Path**: `backend/Dockerfile`
-   * **Build Context**: `backend`
-4. Click **Deploy**. The platform will build the container, install OpenCV system dependencies (`libglib2.0-0` and `libgl1-mesa-glx`), and make the service live.
